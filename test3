@@ -1,4 +1,5 @@
 first need to instaLL GIT 
 git commit file name -m "msg you want to give"
 git add file name
-git 
+git push -u origin main here is main is branch of git
+ 
