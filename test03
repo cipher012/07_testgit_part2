@@ -1,0 +1,35 @@
+version: '3'
+
+services:
+  db:
+    image: postgres:13
+    environment:
+      POSTGRES_DB: postgres           # Database name
+      POSTGRES_USER: odoo           # Matches db_user in odoo.conf
+      POSTGRES_PASSWORD: odoo         # Matches db_password in odoo.conf
+    volumes:
+      - odoo-db-data:/var/lib/postgresql/data
+    restart: always
+
+  odoo:
+    image: odoo:17.0
+    depends_on:
+      - db
+    ports:
+      - "8069:8069"                   # Matches xmlrpc_port in odoo.conf
+    environment:
+      DB_HOST: db                     # Will replace db_host = False
+      DB_PORT: 5432                   # Will replace db_port = False
+      DB_USER: odoo                 # Will replace db_user in odoo.conf
+      DB_PASSWORD: odoo               # Will replace db_password in odoo.conf
+    volumes:
+      - odoo-data:/var/lib/odoo        # Persistent storage for Odoo
+      - /home/codetrade/project/odoo17/odoo17/addons:/mnt/extra-addons  # Matches addons_path in odoo.conf
+      - /home/codetrade/project/zatka/custom_addons:/mnt/custom_addons # match custom-addons path in oddo.conf
+      - /home/codetrade/project/odoo17docker/odoo.conf:/etc/odoo/odoo.conf  # Mount your Odoo config file
+    restart: always
+
+volumes:
+  odoo-db-data:
+  odoo-data:
+
