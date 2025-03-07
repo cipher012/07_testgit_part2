@@ -1,4 +1,4 @@
-version: '3'
+#this is test firl for oodoo 17 which run in docker
 
 services:
   db:
